@@ -4,6 +4,7 @@ MAINTAINER Adrian Skierniewski <adrian.skierniewski@gmail.com>
 
 # Set correct environment variables
 ENV HOME /root
+ENV TERM xterm
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
@@ -12,6 +13,7 @@ RUN apt-get update && \
     LANG=C.UTF-8 add-apt-repository ppa:ondrej/php5-5.6 && \
     apt-get update && \
     apt-get install -y \
+      nano \
       htop \
       git \
       supervisor \
