@@ -28,6 +28,7 @@ RUN apt-get update && \
       php5-ldap \
       php5-mcrypt \
       php5-mysql \
+      php5-xdebug \
       php5-redis && \
     apt-get remove --purge -y software-properties-common && \
     apt-get autoremove -y && \
