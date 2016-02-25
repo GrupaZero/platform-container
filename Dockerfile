@@ -19,6 +19,7 @@ RUN apt-get update && \
       supervisor \
       nginx \
       curl \
+      mysql-client \
       php5-fpm \
       php5-cli \
       php5-curl \
