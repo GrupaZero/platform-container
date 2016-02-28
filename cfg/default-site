@@ -1,4 +1,8 @@
 server {
+    server_name "~^www\.(.*)$";
+    return 301 http://$1$request_uri;
+}
+server {
     listen 80 default_server;
     listen [::]:80 default_server ipv6only=on;
 
