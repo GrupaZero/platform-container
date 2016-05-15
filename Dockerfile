@@ -18,6 +18,7 @@ RUN apt-get update && \
       git \
       supervisor \
       nginx \
+      gettext \
       curl \
       mysql-client \
       php5-fpm \
@@ -66,7 +67,7 @@ RUN chmod +x /commandWrapper.sh
 
 RUN mv /var/www/html /var/www/public
 RUN mv /var/www/public/index.nginx-debian.html /var/www/public/index.html
-ADD ./cfg/default-site /etc/nginx/sites-available/default
+ADD ./cfg/default-site /etc/nginx/conf.d/mysite.template
 
 EXPOSE 80
 

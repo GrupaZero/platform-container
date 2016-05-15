@@ -3,13 +3,10 @@ server {
     return 301 $scheme://$1$request_uri;
 }
 server {
-    listen 80 default_server;
-    listen [::]:80 default_server ipv6only=on;
+    server_name _NGINX_HOST;
 
     root /var/www/public;
     index index.php index.html index.htm;
-
-    server_name localhost;
 
     # Disable sendfile - https://docs.vagrantup.com/v2/synced-folders/virtualbox.html
 	  sendfile off;
@@ -41,4 +38,10 @@ server {
           log_not_found off;
           deny all;
     }
+}
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server ipv6only=on;
+    server_name  _;
+    rewrite ^ $scheme://_NGINX_HOST$request_uri permanent;
 }

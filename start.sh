@@ -13,4 +13,13 @@ else
     echo -e "umask \e[91m022\e[0m"
 fi
 
+if [ $NGINX_HOST ]; then
+    echo $NGINX_HOST | grep -E -q '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$' || die "Not valid domain"
+    sed -e "s/_NGINX_HOST/$NGINX_HOST/g" /etc/nginx/conf.d/mysite.template > /etc/nginx/sites-available/default
+    echo -e "nginx_host \e[91m$NGINX_HOST\e[0m"
+else
+    sed -e "s/_NGINX_HOST/localhost/g" /etc/nginx/conf.d/mysite.template > /etc/nginx/sites-available/default
+    echo -e "nginx_host \e[91mlocalhost\e[0m"
+fi
+
 /usr/bin/supervisord -n -c /etc/supervisord.conf
