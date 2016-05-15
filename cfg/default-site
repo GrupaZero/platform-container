@@ -3,7 +3,7 @@ server {
     return 301 $scheme://$1$request_uri;
 }
 server {
-    server_name _NGINX_HOST;
+    server_name ._NGINX_HOST;
 
     root /var/www/public;
     index index.php index.html index.htm;
