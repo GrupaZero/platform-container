@@ -1,12 +1,12 @@
 server {
-    server_name "~^www\.(.*)$";
-    return 301 $scheme://$1$request_uri;
+    server_name "www._NGINX_HOST";
+    return 301 $scheme://_NGINX_HOST$request_uri;
 }
 server {
     server_name ._NGINX_HOST;
 
     root /var/www/public;
-    index index.php index.html index.htm;
+    index index.php;
 
     # Disable sendfile - https://docs.vagrantup.com/v2/synced-folders/virtualbox.html
 	  sendfile off;
