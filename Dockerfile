@@ -34,7 +34,9 @@ RUN apt-get update && \
       php7.0-mysql \
       php7.0-opcache \
       php7.0-xdebug \
-      php7.0-redis && \
+      php7.0-xml \
+      php7.0-redis \
+      php7.0-zip && \
     apt-get remove --purge -y software-properties-common && \
     apt-get autoremove -y && \
     apt-get clean && \
