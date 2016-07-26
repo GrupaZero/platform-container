@@ -8,7 +8,7 @@ ENV TERM xterm
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
-    apt-get install -y software-properties-common && \
+    apt-get install -y software-properties-common --no-install-recommends && \
     LANG=C.UTF-8 add-apt-repository ppa:nginx/stable && \
     LANG=C.UTF-8 add-apt-repository ppa:ondrej/php && \
     apt-get update && \
@@ -21,7 +21,6 @@ RUN apt-get update && \
       gettext \
       curl \
       mysql-client \
-
       php7.0-fpm \
       php7.0-cli \
       php7.0-common \
