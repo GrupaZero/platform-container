@@ -47,27 +47,27 @@ RUN /usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php
 RUN /bin/mv composer.phar /usr/local/bin/composer
 
 # Nginx config
-ADD ../cfg/nginx.conf /etc/nginx/nginx.conf
+ADD ./cfg/nginx.conf /etc/nginx/nginx.conf
 
 # PHP-FPM configs
-ADD ../cfg/php-fpm.conf /etc/php5/fpm/php-fpm.conf
-ADD ../cfg/php.ini /etc/php5/fpm/php.ini
-ADD ../cfg/pool.d/www.conf /etc/php5/fpm/pool.d/www.conf
+ADD ./cfg/php-fpm.conf /etc/php5/fpm/php-fpm.conf
+ADD ./cfg/php.ini /etc/php5/fpm/php.ini
+ADD ./cfg/pool.d/www.conf /etc/php5/fpm/pool.d/www.conf
 
 # Supervisor config
-ADD ../cfg/supervisord.conf /etc/supervisord.conf
+ADD ./cfg/supervisord.conf /etc/supervisord.conf
 
 # Start script
-ADD ../start.sh /start.sh
+ADD ./start.sh /start.sh
 RUN chmod +x /start.sh
 
 # Wrapper to run as www-data
-ADD ../commandWrapper.sh /commandWrapper.sh
+ADD ./commandWrapper.sh /commandWrapper.sh
 RUN chmod +x /commandWrapper.sh
 
 RUN mv /var/www/html /var/www/public
 RUN mv /var/www/public/index.nginx-debian.html /var/www/public/index.html
-ADD ../cfg/default-site /etc/nginx/conf.d/mysite.template
+ADD ./cfg/default-site /etc/nginx/conf.d/mysite.template
 
 EXPOSE 80
 
