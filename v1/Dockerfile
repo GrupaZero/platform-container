@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
     apt-get install -y software-properties-common --no-install-recommends && \
     LANG=C.UTF-8 add-apt-repository ppa:nginx/stable && \
-    LANG=C.UTF-8 add-apt-repository ppa:ondrej/php && \
+    LANG=C.UTF-8 add-apt-repository ppa:ondrej/php5-5.6 && \
     apt-get update && \
     apt-get install -y \
       nano \
@@ -21,22 +21,17 @@ RUN apt-get update && \
       gettext \
       curl \
       mysql-client \
-      php7.0-fpm \
-      php7.0-cli \
-      php7.0-common \
-      php7.0-curl \
-      php7.0-gd \
-      php7.0-intl \
-      php7.0-json \
-      php7.0-ldap \
-      php7.0-mcrypt \
-      php7.0-mbstring \
-      php7.0-mysql \
-      php7.0-opcache \
-      php7.0-xdebug \
-      php7.0-xml \
-      php7.0-redis \
-      php7.0-zip && \
+      php5-fpm \
+      php5-cli \
+      php5-curl \
+      php5-gd \
+      php5-intl \
+      php5-json \
+      php5-ldap \
+      php5-mcrypt \
+      php5-mysql \
+      php5-xdebug \
+      php5-redis && \
     apt-get remove --purge -y software-properties-common && \
     apt-get autoremove -y && \
     apt-get clean && \
@@ -46,33 +41,33 @@ RUN apt-get update && \
     rm -rf /usr/share/man/?? && \
     rm -rf /usr/share/man/??_*
 
-RUN phpenmod mcrypt
+RUN php5enmod mcrypt
 
 RUN /usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php
 RUN /bin/mv composer.phar /usr/local/bin/composer
 
 # Nginx config
-ADD ./cfg/nginx.conf /etc/nginx/nginx.conf
+ADD ../cfg/nginx.conf /etc/nginx/nginx.conf
 
 # PHP-FPM configs
-ADD ./cfg/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
-ADD ./cfg/php.ini /etc/php/7.0/fpm/php.ini
-ADD ./cfg/pool.d/www.conf /etc/php/7.0/fpm/pool.d/www.conf
+ADD ../cfg/php-fpm.conf /etc/php5/fpm/php-fpm.conf
+ADD ../cfg/php.ini /etc/php5/fpm/php.ini
+ADD ../cfg/pool.d/www.conf /etc/php5/fpm/pool.d/www.conf
 
 # Supervisor config
-ADD ./cfg/supervisord.conf /etc/supervisord.conf
+ADD ../cfg/supervisord.conf /etc/supervisord.conf
 
 # Start script
-ADD ./start.sh /start.sh
+ADD ../start.sh /start.sh
 RUN chmod +x /start.sh
 
 # Wrapper to run as www-data
-ADD ./commandWrapper.sh /commandWrapper.sh
+ADD ../commandWrapper.sh /commandWrapper.sh
 RUN chmod +x /commandWrapper.sh
 
 RUN mv /var/www/html /var/www/public
 RUN mv /var/www/public/index.nginx-debian.html /var/www/public/index.html
-ADD ./cfg/default-site /etc/nginx/conf.d/mysite.template
+ADD ../cfg/default-site /etc/nginx/conf.d/mysite.template
 
 EXPOSE 80
 
