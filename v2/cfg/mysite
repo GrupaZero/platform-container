@@ -1,8 +1,10 @@
 server {
+    listen 80;
     server_name "www._NGINX_HOST";
-    return 301 $scheme://_NGINX_HOST$request_uri;
+    return 301 http://_NGINX_HOST$request_uri;
 }
 server {
+    listen 80;
     server_name ._NGINX_HOST;
 
     root /var/www/public;
@@ -22,7 +24,7 @@ server {
     location ~ \.php$ {
         try_files $uri /index.php =404;
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass unix:/var/run/php7.0-fpm.sock;
+        fastcgi_pass unix:/var/run/php7.1-fpm.sock;
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
@@ -40,8 +42,7 @@ server {
     }
 }
 server {
-    listen 80 default_server;
-    listen [::]:80 default_server ipv6only=on;
+    listen 80;
     server_name  _;
-    rewrite ^ $scheme://_NGINX_HOST$request_uri permanent;
+    rewrite ^ http://_NGINX_HOST$request_uri permanent;
 }

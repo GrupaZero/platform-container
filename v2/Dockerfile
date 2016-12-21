@@ -1,4 +1,4 @@
-FROM ubuntu:14.04.4
+FROM ubuntu:16.04
 
 MAINTAINER Adrian Skierniewski <adrian.skierniewski@gmail.com>
 
@@ -21,22 +21,22 @@ RUN apt-get update && \
       gettext \
       curl \
       mysql-client \
-      php7.0-fpm \
-      php7.0-cli \
-      php7.0-common \
-      php7.0-curl \
-      php7.0-gd \
-      php7.0-intl \
-      php7.0-json \
-      php7.0-ldap \
-      php7.0-mcrypt \
-      php7.0-mbstring \
-      php7.0-mysql \
-      php7.0-opcache \
-      php7.0-xdebug \
-      php7.0-xml \
-      php7.0-redis \
-      php7.0-zip && \
+      php7.1-fpm \
+      php7.1-cli \
+      php7.1-common \
+      php7.1-curl \
+      php7.1-gd \
+      php7.1-intl \
+      php7.1-json \
+      php7.1-ldap \
+      php7.1-mcrypt \
+      php7.1-mbstring \
+      php7.1-mysql \
+      php7.1-opcache \
+      php7.1-xdebug \
+      php7.1-xml \
+      php7.1-redis \
+      php7.1-zip && \
     apt-get remove --purge -y software-properties-common && \
     apt-get autoremove -y && \
     apt-get clean && \
@@ -55,9 +55,10 @@ RUN /bin/mv composer.phar /usr/local/bin/composer
 ADD ./cfg/nginx.conf /etc/nginx/nginx.conf
 
 # PHP-FPM configs
-ADD ./cfg/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
-ADD ./cfg/php.ini /etc/php/7.0/fpm/php.ini
-ADD ./cfg/pool.d/www.conf /etc/php/7.0/fpm/pool.d/www.conf
+ADD ./cfg/php-fpm.conf /etc/php/7.1/fpm/php-fpm.conf
+ADD ./cfg/php.ini /etc/php/7.1/fpm/php.ini
+ADD ./cfg/pool.d/www.conf /etc/php/7.1/fpm/pool.d/www.conf
+ADD ./cfg/xdebug.ini ./etc/php/7.1/mods-available/xdebug.ini
 
 # Supervisor config
 ADD ./cfg/supervisord.conf /etc/supervisord.conf
@@ -72,8 +73,11 @@ RUN chmod +x /commandWrapper.sh
 
 RUN mv /var/www/html /var/www/public
 RUN mv /var/www/public/index.nginx-debian.html /var/www/public/index.html
-ADD ./cfg/default-site /etc/nginx/conf.d/mysite.template
 
-EXPOSE 80
+# Add site templates
+ADD ./cfg/mysite /etc/nginx/conf.d/mysite.template
+ADD ./cfg/mysite-ssl /etc/nginx/conf.d/mysite-ssl.template
+
+EXPOSE 80 443
 
 CMD ["/bin/bash", "/start.sh"]
