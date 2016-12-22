@@ -9,3 +9,5 @@ Docker container for GZERO platform
   - XDEBUG
   - OVERRIDE_UMASK
   - NGINX_HOST
+  
+**Notice: First run can take some time due to generation of certificate.**

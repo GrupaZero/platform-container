@@ -38,4 +38,29 @@ else
     echo -e "nginx_host: \e[91mlocalhost\e[0m"
 fi
 
+[ -d /var/www/ssl ] || mkdir /var/www/ssl
+
+DHPARAM="/var/www/ssl/dhparam.pem"
+
+if [ ! -e "$DHPARAM" ]
+then
+  echo ""
+  echo -e "\e[91mFirst start of nginx\e[0m"
+  echo ""
+
+  echo -e "\e[91mGenerating $DHPARAM with size: 2048\e[0m"
+  openssl dhparam -out "$DHPARAM" 2048
+fi
+
+if [ ! -e "/var/www/ssl/ssl.crt" ] || [ ! -e "/var/www/ssl/ssl.key" ]
+then
+  echo ""
+  echo -e "\e[91mGenerating self signed certificate\e[0m"
+  openssl req -x509 -newkey rsa:4086 \
+  -subj "/C=XX/ST=XXXX/L=XXXX/O=XXXX/CN=localhost" \
+  -keyout "/var/www/ssl/ssl.key" \
+  -out "/var/www/ssl/ssl.crt" \
+  -days 3650 -nodes -sha256
+fi
+
 /usr/bin/supervisord -n -c /etc/supervisord.conf
