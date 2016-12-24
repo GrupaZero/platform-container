@@ -13,7 +13,7 @@ else
     echo -e "umask: \e[91m022\e[0m"
 fi
 
-if [ $SSL ]; then
+if [ "$SSL" == "true" ]; then
   SSL="-ssl"
   echo -e "ssl: \e[91menabled\e[0m"
 else
@@ -21,7 +21,7 @@ else
   echo -e "ssl: \e[91mdisabled\e[0m"
 fi
 
-if [ $XDEBUG ]; then
+if [ "$XDEBUG" == "true" ]; then
   phpenmod xdebug
   echo -e "xdebug: \e[91menabled\e[0m"
 else
