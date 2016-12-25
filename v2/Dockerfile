@@ -13,6 +13,7 @@ RUN apt-get update && \
     LANG=C.UTF-8 add-apt-repository ppa:ondrej/php && \
     apt-get update && \
     apt-get install -y \
+      sudo \
       nano \
       htop \
       git \
