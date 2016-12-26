@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
     apt-get install -y software-properties-common --no-install-recommends && \
     LANG=C.UTF-8 add-apt-repository ppa:nginx/stable && \
-    LANG=C.UTF-8 add-apt-repository ppa:ondrej/php5-5.6 && \
+    LANG=C.UTF-8 add-apt-repository ppa:ondrej/php && \
     apt-get update && \
     apt-get install -y \
       nano \
@@ -21,17 +21,17 @@ RUN apt-get update && \
       gettext \
       curl \
       mysql-client \
-      php5-fpm \
-      php5-cli \
-      php5-curl \
-      php5-gd \
-      php5-intl \
-      php5-json \
-      php5-ldap \
-      php5-mcrypt \
-      php5-mysql \
-      php5-xdebug \
-      php5-redis && \
+      php5.6-fpm \
+      php5.6-cli \
+      php5.6-curl \
+      php5.6-gd \
+      php5.6-intl \
+      php5.6-json \
+      php5.6-ldap \
+      php5.6-mcrypt \
+      php5.6-mysql \
+      php5.6-xdebug \
+      php5.6-redis && \
     apt-get remove --purge -y software-properties-common && \
     apt-get autoremove -y && \
     apt-get clean && \
@@ -41,7 +41,7 @@ RUN apt-get update && \
     rm -rf /usr/share/man/?? && \
     rm -rf /usr/share/man/??_*
 
-RUN php5enmod mcrypt
+RUN phpenmod mcrypt
 
 RUN /usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php
 RUN /bin/mv composer.phar /usr/local/bin/composer
@@ -50,9 +50,9 @@ RUN /bin/mv composer.phar /usr/local/bin/composer
 ADD ./cfg/nginx.conf /etc/nginx/nginx.conf
 
 # PHP-FPM configs
-ADD ./cfg/php-fpm.conf /etc/php5/fpm/php-fpm.conf
-ADD ./cfg/php.ini /etc/php5/fpm/php.ini
-ADD ./cfg/pool.d/www.conf /etc/php5/fpm/pool.d/www.conf
+ADD ./cfg/php-fpm.conf /etc/php/5.6/fpm/php-fpm.conf
+ADD ./cfg/php.ini /etc/php/5.6/fpm/php.ini
+ADD ./cfg/pool.d/www.conf /etc/php/5.6/fpm/pool.d/www.conf
 
 # Supervisor config
 ADD ./cfg/supervisord.conf /etc/supervisord.conf
