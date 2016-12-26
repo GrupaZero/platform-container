@@ -1,4 +1,4 @@
-# docker-platform
+# platform-container
 Docker container for GZERO platform
 
 - v1 - PHP 5.6
