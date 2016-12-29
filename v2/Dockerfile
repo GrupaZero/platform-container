@@ -51,6 +51,7 @@ RUN phpenmod mcrypt
 
 RUN /usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php
 RUN /bin/mv composer.phar /usr/local/bin/composer
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
 # Nginx config
 ADD ./cfg/nginx.conf /etc/nginx/nginx.conf
