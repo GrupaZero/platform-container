@@ -69,10 +69,6 @@ ADD ./cfg/supervisord.conf /etc/supervisord.conf
 ADD ./start.sh /start.sh
 RUN chmod +x /start.sh
 
-# Wrapper to run as www-data
-ADD ./commandWrapper.sh /commandWrapper.sh
-RUN chmod +x /commandWrapper.sh
-
 RUN mv /var/www/html /var/www/public
 RUN mv /var/www/public/index.nginx-debian.html /var/www/public/index.html
 
