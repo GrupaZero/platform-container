@@ -50,6 +50,8 @@ then
 
   echo -e "\e[91mGenerating $DHPARAM with size: 2048\e[0m"
   openssl dhparam -out "$DHPARAM" 2048
+  chown www-data:www-data ${DHPARAM}
+  chmod 644 ${DHPARAM}
 fi
 
 if [ ! -e "/var/www/ssl/ssl.crt" ] || [ ! -e "/var/www/ssl/ssl.key" ]
@@ -61,6 +63,8 @@ then
   -keyout "/var/www/ssl/ssl.key" \
   -out "/var/www/ssl/ssl.crt" \
   -days 3650 -nodes -sha256
+  chown www-data:www-data /var/www/ssl/ssl.*
+  chmod 644 /var/www/ssl/ssl.*
 fi
 
 /usr/bin/supervisord -n -c /etc/supervisord.conf
