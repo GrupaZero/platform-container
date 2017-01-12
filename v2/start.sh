@@ -29,14 +29,11 @@ else
   echo -e "xdebug: \e[91mdisabled\e[0m"
 fi
 
-if [ $NGINX_HOST ]; then
-    echo $NGINX_HOST | grep -E -q '^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$' || die "Not valid domain"
-    sed -e "s/_NGINX_HOST/$NGINX_HOST/g" "/etc/nginx/conf.d/mysite$SSL.template" > /etc/nginx/sites-available/default
-    echo -e "nginx_host: \e[91m$NGINX_HOST\e[0m"
-else
-    sed -e "s/_NGINX_HOST/localhost/g" "/etc/nginx/conf.d/mysite$SSL.template" > /etc/nginx/sites-available/default
-    echo -e "nginx_host: \e[91mlocalhost\e[0m"
-fi
+HOST=${NGINX_HOST:-localhost}
+
+echo $HOST | grep -E -q '^localhost$|^([a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,}$' || die "Not valid domain"
+sed -e "s/_NGINX_HOST/$HOST/g" "/etc/nginx/conf.d/mysite$SSL.template" > /etc/nginx/sites-available/default
+echo -e "nginx_host: \e[91m$HOST\e[0m"
 
 [ -d /var/www/ssl ] || mkdir /var/www/ssl
 
@@ -58,7 +55,7 @@ then
   echo ""
   echo -e "\e[91mGenerating self signed certificate\e[0m"
   openssl req -x509 -newkey rsa:4086 \
-  -subj "/C=XX/ST=XXXX/L=XXXX/O=XXXX/CN=localhost" \
+  -subj "/C=XX/ST=XXXX/L=XXXX/O=XXXX/CN=$HOST" \
   -keyout "/var/www/ssl/ssl.key" \
   -out "/var/www/ssl/ssl.crt" \
   -days 3650 -nodes -sha256
