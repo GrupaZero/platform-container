@@ -6,6 +6,7 @@ MAINTAINER Adrian Skierniewski <adrian.skierniewski@gmail.com>
 ENV HOME /root
 ENV TERM xterm
 ENV DEBIAN_FRONTEND noninteractive
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
 RUN apt-get update && \
     apt-get install -y software-properties-common --no-install-recommends && \
@@ -47,12 +48,6 @@ RUN apt-get update && \
     rm -rf /usr/share/man/?? && \
     rm -rf /usr/share/man/??_*
 
-RUN phpenmod mcrypt
-
-RUN /usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php
-RUN /bin/mv composer.phar /usr/local/bin/composer
-ENV COMPOSER_ALLOW_SUPERUSER 1
-
 # Nginx config
 ADD ./cfg/nginx.conf /etc/nginx/nginx.conf
 
@@ -67,14 +62,17 @@ ADD ./cfg/supervisord.conf /etc/supervisord.conf
 
 # Start script
 ADD ./start.sh /start.sh
-RUN chmod +x /start.sh
-
-RUN mv /var/www/html /var/www/public
-RUN mv /var/www/public/index.nginx-debian.html /var/www/public/index.html
 
 # Add site templates
 ADD ./cfg/mysite /etc/nginx/conf.d/mysite.template
 ADD ./cfg/mysite-ssl /etc/nginx/conf.d/mysite-ssl.template
+
+RUN phpenmod mcrypt \
+  && /usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php \
+  && /bin/mv composer.phar /usr/local/bin/composer \
+  && chmod +x /start.sh \
+  && mv /var/www/html /var/www/public \
+  && mv /var/www/public/index.nginx-debian.html /var/www/public/index.html
 
 EXPOSE 80 443
 
