@@ -34,6 +34,7 @@ RUN apt-get update && \
       php7.1-mcrypt \
       php7.1-mbstring \
       php7.1-mysql \
+      php7.1-pgsql \
       php7.1-opcache \
       php7.1-xdebug \
       php7.1-xml \
