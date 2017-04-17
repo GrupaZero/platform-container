@@ -23,23 +23,23 @@ RUN apt-get update && \
       gettext \
       curl \
       mysql-client \
-      php7.1-fpm \
-      php7.1-cli \
-      php7.1-common \
-      php7.1-curl \
-      php7.1-gd \
-      php7.1-intl \
-      php7.1-json \
-      php7.1-ldap \
-      php7.1-mcrypt \
-      php7.1-mbstring \
-      php7.1-mysql \
-      php7.1-pgsql \
-      php7.1-opcache \
-      php7.1-xdebug \
-      php7.1-xml \
-      php7.1-redis \
-      php7.1-zip && \
+      php7.0-fpm \
+      php7.0-cli \
+      php7.0-common \
+      php7.0-curl \
+      php7.0-gd \
+      php7.0-intl \
+      php7.0-json \
+      php7.0-ldap \
+      php7.0-mcrypt \
+      php7.0-mbstring \
+      php7.0-mysql \
+      php7.0-pgsql \
+      php7.0-opcache \
+      php7.0-xdebug \
+      php7.0-xml \
+      php7.0-redis \
+      php7.0-zip && \
     apt-get remove --purge -y software-properties-common && \
     apt-get autoremove -y && \
     apt-get clean && \

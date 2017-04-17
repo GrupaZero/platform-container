@@ -2,7 +2,7 @@
 Docker container for GZERO platform
 
 - v1 - PHP 5.6
-- v2 - PHP 7.1
+- v2 - PHP 7.0
 - v3 - PHP 7.1
 
 ## Available env variables (v2):
