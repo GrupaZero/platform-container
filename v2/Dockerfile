@@ -53,10 +53,10 @@ RUN apt-get update && \
 ADD ./cfg/nginx.conf /etc/nginx/nginx.conf
 
 # PHP-FPM configs
-ADD ./cfg/php-fpm.conf /etc/php/7.1/fpm/php-fpm.conf
-ADD ./cfg/php.ini /etc/php/7.1/fpm/php.ini
-ADD ./cfg/pool.d/www.conf /etc/php/7.1/fpm/pool.d/www.conf
-ADD ./cfg/xdebug.ini ./etc/php/7.1/mods-available/xdebug.ini
+ADD ./cfg/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
+ADD ./cfg/php.ini /etc/php/7.0/fpm/php.ini
+ADD ./cfg/pool.d/www.conf /etc/php/7.0/fpm/pool.d/www.conf
+ADD ./cfg/xdebug.ini ./etc/php/7.0/mods-available/xdebug.ini
 
 # Supervisor config
 ADD ./cfg/supervisord.conf /etc/supervisord.conf
