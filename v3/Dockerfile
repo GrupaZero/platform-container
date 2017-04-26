@@ -47,6 +47,10 @@ RUN apt-get update && \
     apt-get autoclean && \
     echo -n > /var/lib/apt/extended_states && \
     rm -rf /var/lib/apt/lists/* && \
+    rm -rf /etc/cron.d/* && \
+    rm -rf /etc/cron.hourly/* && \
+    rm -rf /etc/cron.daily/* && \
+    rm -rf /etc/cron.monthly/* && \
     rm -rf /usr/share/man/?? && \
     rm -rf /usr/share/man/??_*
 
@@ -68,13 +72,11 @@ ADD ./start.sh /start.sh
 # Add site template
 ADD ./cfg/site.conf /etc/nginx/conf.d/site.template
 
-# Add crontab file in the cron directory
-ADD ./cfg/crontab /etc/cron.d/laravel-cron
+# Add cron file
+ADD ./cfg/laravel-cron /etc/cron.d/laravel-cron
 
-# Give execution rights on the cron job
-RUN chmod 0644 /etc/cron.d/laravel-cron
-
-RUN phpenmod mcrypt \
+RUN chmod 0644 /etc/cron.d/laravel-cron \
+  && phpenmod mcrypt \
   && /usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php \
   && /bin/mv composer.phar /usr/local/bin/composer \
   && chmod +x /start.sh \
