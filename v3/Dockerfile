@@ -18,6 +18,7 @@ RUN apt-get update && \
       nano \
       htop \
       git \
+      cron \
       supervisor \
       nginx \
       gettext \
@@ -66,6 +67,12 @@ ADD ./start.sh /start.sh
 
 # Add site template
 ADD ./cfg/site.conf /etc/nginx/conf.d/site.template
+
+# Add crontab file in the cron directory
+ADD ./cfg/crontab /etc/cron.d/laravel-cron
+
+# Give execution rights on the cron job
+RUN chmod 0644 /etc/cron.d/laravel-cron
 
 RUN phpenmod mcrypt \
   && /usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php \
