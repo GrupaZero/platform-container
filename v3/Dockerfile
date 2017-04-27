@@ -7,6 +7,7 @@ ENV HOME /root
 ENV TERM xterm
 ENV DEBIAN_FRONTEND noninteractive
 ENV COMPOSER_ALLOW_SUPERUSER 1
+ENV LARAVEL_LOG_STREAM="/tmp/laravel.log"
 
 RUN apt-get update && \
     apt-get install -y software-properties-common --no-install-recommends && \
@@ -47,7 +48,6 @@ RUN apt-get update && \
     apt-get autoclean && \
     echo -n > /var/lib/apt/extended_states && \
     rm -rf /var/lib/apt/lists/* && \
-    rm -rf /etc/crontab && \
     rm -rf /etc/cron.d/* && \
     rm -rf /etc/cron.hourly/* && \
     rm -rf /etc/cron.daily/* && \
@@ -73,17 +73,23 @@ ADD ./start.sh /start.sh
 # Add site template
 ADD ./cfg/site.conf /etc/nginx/conf.d/site.template
 
+# Add logs wrapper
+ADD ./cfg/laravel-logs.sh /var/laravel-logs.sh
+
 # Add cron file
 ADD ./cfg/laravel-cron /var/laravel-cron
 
 RUN chmod 0644 /var/laravel-cron \
+  && chmod +x /var/laravel-logs.sh \
   && crontab -u www-data /var/laravel-cron \
   && phpenmod mcrypt \
   && /usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php \
   && /bin/mv composer.phar /usr/local/bin/composer \
   && chmod +x /start.sh \
   && mv /var/www/html /var/www/public \
-  && mv /var/www/public/index.nginx-debian.html /var/www/public/index.html
+  && mv /var/www/public/index.nginx-debian.html /var/www/public/index.html \
+  && mkfifo $LARAVEL_LOG_STREAM \
+  && chmod 777 $LARAVEL_LOG_STREAM
 
 EXPOSE 80
 
