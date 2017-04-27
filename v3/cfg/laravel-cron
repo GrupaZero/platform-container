@@ -1,2 +1,2 @@
-# /etc/cron.d/laravel-cron: crontab fragment for laravel scheduler
-* *     * * *     www-data   php /var/www/artisan schedule:run
+# crontab fragment for laravel scheduler
+* * * * * php /var/www/artisan schedule:run >> /dev/stdout 2>&1
