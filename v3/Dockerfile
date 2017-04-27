@@ -74,10 +74,10 @@ ADD ./start.sh /start.sh
 ADD ./cfg/site.conf /etc/nginx/conf.d/site.template
 
 # Add cron file
-ADD ./cfg/laravel-cron /var/www/laravel-cron
+ADD ./cfg/laravel-cron /var/laravel-cron
 
-RUN chmod 0644 /var/www/laravel-cron \
-  && crontab -u www-data /var/www/laravel-cron \
+RUN chmod 0644 /var/laravel-cron \
+  && crontab -u www-data /var/laravel-cron \
   && phpenmod mcrypt \
   && /usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php \
   && /bin/mv composer.phar /usr/local/bin/composer \
