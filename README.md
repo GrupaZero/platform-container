@@ -4,6 +4,7 @@ Docker container for GZERO platform
 - v1 - PHP 5.6
 - v2 - PHP 7.0
 - v3 - PHP 7.1
+- v4 - PHP 7.2 + Laravel Horizon
 
 ## Available env variables (v2):
   - **SSL** *(default: false)*
@@ -14,6 +15,11 @@ Docker container for GZERO platform
 **Notice: First run can take some time due to generation of certificate.**
 
 ## Available env variables (v3):
+  - **XDEBUG** *(default: false)*
+  - **OVERRIDE_UMASK** *(default: 022)*
+  - **NGINX_HOST** *(default: localhost)*
+  
+## Available env variables (v4):
   - **XDEBUG** *(default: false)*
   - **OVERRIDE_UMASK** *(default: 022)*
   - **NGINX_HOST** *(default: localhost)*
