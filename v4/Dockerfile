@@ -37,7 +37,7 @@ RUN apt-get update && \
       php7.2-mysql \
       php7.2-pgsql \
       php7.2-opcache \
-#      php7.2-xdebug \ We need to wait for stable version for php 7.2
+      php7.2-xdebug \
       php7.2-xml \
       php7.2-redis \
       php7.2-zip && \
@@ -61,7 +61,7 @@ ADD ./cfg/nginx.conf /etc/nginx/nginx.conf
 ADD ./cfg/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
 ADD ./cfg/php.ini /etc/php/7.2/fpm/php.ini
 ADD ./cfg/pool.d/www.conf /etc/php/7.2/fpm/pool.d/www.conf
-#ADD ./cfg/xdebug.ini ./etc/php/7.2/mods-available/xdebug.ini
+ADD ./cfg/xdebug.ini ./etc/php/7.2/mods-available/xdebug.ini
 
 # Supervisor config
 ADD ./cfg/supervisord.conf /etc/supervisord.conf
