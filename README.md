@@ -1,9 +1,6 @@
 # Platform docker containers
 
-This repository contains two containers:
-
-1. [Web Container](#platform-web-container)
-2. [Worker Container](#platform-worker-container)
+This repository contains two containers
 
 ## platform-web-container
 Docker web container for GZERO platform
