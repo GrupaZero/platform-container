@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function die () {
-    echo >&2 "$@"
+    echo -e >&2 "\e[91m$@\e[0m"
     exit 1
 }
 
