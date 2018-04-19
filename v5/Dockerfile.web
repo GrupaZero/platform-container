@@ -76,6 +76,9 @@ RUN /usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php \
   && mv /var/www/html /var/www/public \
   && mv /var/www/public/index.nginx-debian.html /var/www/public/index.html
 
+HEALTHCHECK --interval=5s --timeout=3s \
+  CMD curl -f http://localhost/ || exit 1
+
 EXPOSE 80
 
 CMD ["/bin/bash", "/start.sh"]

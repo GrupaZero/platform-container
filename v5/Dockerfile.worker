@@ -64,4 +64,7 @@ RUN chmod 0644 /var/laravel-cron \
   && /bin/mv composer.phar /usr/local/bin/composer \
   && chmod +x /start.sh
 
+HEALTHCHECK --interval=5s --timeout=3s \
+  CMD php artisan horizon:list | grep -v 'No machines are running.'
+
 CMD ["/bin/bash", "/start.sh"]
