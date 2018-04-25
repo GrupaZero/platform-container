@@ -19,4 +19,4 @@ Docker web container for GZERO platform
 #### Available env variables (v5):
   - **XDEBUG** *(default: false)*
   - **OVERRIDE_UMASK** *(default: 022)*
-  - **MODE** *(horizon or cron)*
+  - **MODE** *(cron)* Run cron worker instead queue worker

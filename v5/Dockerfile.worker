@@ -7,9 +7,10 @@ ENV HOME /root
 ENV TERM xterm
 ENV DEBIAN_FRONTEND noninteractive
 ENV COMPOSER_ALLOW_SUPERUSER 1
+ENV GOSU_VERSION 1.10
 
 RUN apt-get update && \
-    apt-get install -y software-properties-common --no-install-recommends && \
+    apt-get install -y software-properties-common wget --no-install-recommends && \
     LANG=C.UTF-8 add-apt-repository ppa:ondrej/php && \
     apt-get update && \
     apt-get install -y \
@@ -34,8 +35,16 @@ RUN apt-get update && \
       php7.2-xdebug \
       php7.2-xml \
       php7.2-redis \
-      php7.2-zip && \
-    apt-get remove --purge -y software-properties-common && \
+      php7.2-zip \
+      && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
+      && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
+      && export GNUPGHOME="$(mktemp -d)" \
+      && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+      && gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
+      && rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
+      && chmod +x /usr/local/bin/gosu \
+      && gosu nobody true \
+    apt-get remove --purge -y software-properties-common ca-certificates wget && \
     apt-get autoremove -y && \
     apt-get clean && \
     apt-get autoclean && \
@@ -53,7 +62,7 @@ ADD ./cfg/php-cli.ini /etc/php/7.2/cli/php.ini
 ADD ./cfg/xdebug.ini ./etc/php/7.2/mods-available/xdebug.ini
 
 # Start script
-ADD ./start-worker.sh /start.sh
+ADD ./docker-entrypoint-worker.sh /usr/local/bin/docker-entrypoint.sh
 
 # Add cron file
 ADD ./cfg/laravel-cron /var/laravel-cron
@@ -62,9 +71,13 @@ RUN chmod 0644 /var/laravel-cron \
   && crontab -u www-data /var/laravel-cron \
   && /usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php \
   && /bin/mv composer.phar /usr/local/bin/composer \
-  && chmod +x /start.sh
+  && chmod +x /usr/local/bin/docker-entrypoint.sh
 
 HEALTHCHECK --interval=5s --timeout=3s \
   CMD php artisan horizon:list | grep -v 'No machines are running.'
 
-CMD ["/bin/bash", "/start.sh"]
+WORKDIR /var/www/data
+
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD ["php", "/var/www/artisan", "horizon"]

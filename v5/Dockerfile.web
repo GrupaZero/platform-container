@@ -65,20 +65,24 @@ ADD ./cfg/xdebug.ini ./etc/php/7.2/mods-available/xdebug.ini
 ADD ./cfg/supervisord.conf /etc/supervisord.conf
 
 # Start script
-ADD ./start-web.sh /start.sh
+ADD ./docker-entrypoint-web.sh /usr/local/bin/docker-entrypoint.sh
 
 # Add site template
 ADD ./cfg/site.conf /etc/nginx/conf.d/site.template
 
 RUN /usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php \
   && /bin/mv composer.phar /usr/local/bin/composer \
-  && chmod +x /start.sh \
+  && chmod +x /usr/local/bin/docker-entrypoint.sh \
   && mv /var/www/html /var/www/public \
   && mv /var/www/public/index.nginx-debian.html /var/www/public/index.html
 
 HEALTHCHECK --interval=5s --timeout=3s \
   CMD curl -f http://localhost/ || exit 1
 
+WORKDIR /var/www/data
+
 EXPOSE 80
 
-CMD ["/bin/bash", "/start.sh"]
+ENTRYPOINT ["docker-entrypoint.sh"]
+
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]

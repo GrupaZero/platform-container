@@ -1,2 +1,2 @@
 # crontab fragment for laravel scheduler
-* * * * * php /var/www/artisan schedule:run >> /dev/null 2>&1
+* * * * * LOG_STREAM=/dev/console php /var/www/artisan schedule:run >> /dev/null 2>&1

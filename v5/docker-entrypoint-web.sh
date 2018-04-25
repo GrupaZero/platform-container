@@ -34,4 +34,4 @@ else
   sed -e "s/{{DEFAULT_HOST}}/$HOST/g" "/etc/nginx/conf.d/site.template" > /etc/nginx/sites-available/default
 fi
 
-/usr/bin/supervisord -n -c /etc/supervisord.conf
+exec "$@"
