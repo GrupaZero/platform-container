@@ -76,7 +76,7 @@ RUN chmod 0644 /var/laravel-cron \
 HEALTHCHECK --interval=5s --timeout=3s \
   CMD php artisan horizon:list | grep -v 'No machines are running.'
 
-WORKDIR /var/www/data
+WORKDIR /var/www
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 

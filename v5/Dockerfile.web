@@ -79,7 +79,7 @@ RUN /usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php \
 HEALTHCHECK --interval=5s --timeout=3s \
   CMD curl -f http://localhost/ || exit 1
 
-WORKDIR /var/www/data
+WORKDIR /var/www
 
 EXPOSE 80
 
