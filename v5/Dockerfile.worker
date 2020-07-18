@@ -68,7 +68,7 @@ ADD ./docker-entrypoint-worker.sh /usr/local/bin/docker-entrypoint.sh
 ADD ./cfg/laravel-cron /var/laravel-cron
 
 RUN chmod 0644 /var/laravel-cron \
-  && crontab -u www-data /var/laravel-cron \
+  && crontab /var/laravel-cron \
   && /usr/bin/curl -sS https://getcomposer.org/installer | /usr/bin/php \
   && /bin/mv composer.phar /usr/local/bin/composer \
   && chmod +x /usr/local/bin/docker-entrypoint.sh
